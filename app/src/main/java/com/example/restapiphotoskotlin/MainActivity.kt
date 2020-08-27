@@ -15,20 +15,16 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     var photoAdapter: PhotoAdapter= PhotoAdapter()
-    val photoList=ArrayList<Jphoto>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //photoAdapter.updateList(photoList)
-
         loadPhotosFromApi()
     }
     private fun loadPhotosFromApi() {
         val call = RetrofitK.retrofitInstance().getPhotos()
         call.enqueue(object : Callback<ArrayList<Jphoto>> {
             override fun onResponse(call: Call<ArrayList<Jphoto>>, response: Response<ArrayList<Jphoto>>) {
-                val list : List<Jphoto> = response.body()?.take(10)!!
+                val list : List<Jphoto> = response.body()?.take(10)!! //aqui tomo los primeros 10 resultados
                 photoAdapter.updateList(list)
                 reciclerViewPhoto.adapter=photoAdapter
                 reciclerViewPhoto.layoutManager= LinearLayoutManager(this@MainActivity)
